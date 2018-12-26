@@ -1,0 +1,186 @@
+<!-- 
+    화    면    명 : WEB서버 index.html    
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- <meta http-equiv="X-UA-Compatible" content="requiresActiveX=true" /> -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="expires" content="mon, 06 jan 1990 00:00:01 gmt" />
+<meta name="author" content="" />
+<!--  meta name="robots" content="noindex" / -->
+<meta name="keywords" content="" />
+<meta name="description" content="주식중개 전문업체, 위탁, HTS다운로드, 금융상품, 자금이체, 선물옵션 수수료 안내." />
+<title>현대차증권</title>
+<!-- <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" /> -->
+<link rel="stylesheet" href="/common/css/common.css" type="text/css" />
+<style>
+
+			html, body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				word-break: keep-all; 
+				text-align: center;
+				overflow: hidden;
+			}
+			
+			#frameWrap{
+				width: 100%;     
+				height: 100%;				
+			}
+			#mainifr{
+				width: 100%;
+				height: 100%;
+			}
+			
+		
+</style>
+<script type="text/javascript">
+var filter = "|win16|win32|win64|mac";
+if( navigator.platform  ){
+    if( filter.indexOf(navigator.platform.toLowerCase())<0 ){
+			document.location.href = "http://m.hmcib.com/mobile/main.do";
+    }
+}
+</script>
+<script language="javascript">
+	var security_yn = "false"; 
+</script>
+
+<!-- <script language="JavaScript" src="http://ahnlabdownload.nefficient.co.kr/aos/plugin/aosmgr_common.js"></script> -->	
+
+<script> 
+	/*
+	 * 메모리보안(AOS) 구동
+	 */
+	function startAOS() {		
+		aos_set_authinfo("aosmgr_hmcib_com.html" );  // 인증파일 셋팅		
+	//	alert("여기");
+		aos_write_object();            // ActiveX write
+	//	alert("요기");
+		var bIsRunning = aos_isrunning('e9');
+		if(!bIsRunning) {			
+			aos_start('e9');               //start
+		}
+	}
+	
+	
+</script>
+
+<script type="text/javascript" src="/common/js/common.js"></script>
+<script type="text/javascript" src="/common/js/jquery.min.js"></script>
+<script language="javascript">
+	//<![CDATA[
+		function loadIframe(){
+			var frm = document.getElementById("mainifr");
+			var fDoc = frm.contentWindow || frm.contentDocument;
+			
+			document.title = fDoc.document.title;
+		
+			//startAOS();
+		}
+		
+		function callPage()
+		{
+			var url = "/main.do";
+			
+			var search = document.location.search;
+			if(search != null && search != undefined && search.length > 1) {
+				search = search.substring(1);
+				if(search.indexOf("noticeinfo") == 0) {
+					var mbrid = search.replace("noticeinfo", "");
+					url = "/board/view.do?board_name=normal_notice&mbr_id=" + mbrid;
+					$("#mainifr").attr("src", url);
+				} else if(search.indexOf("eventinfo") == 0) {
+					var mbrid = search.replace("eventinfo", "");
+					url = "/board/view.do?board_name=event_board&mbr_id=" + mbrid;
+					$("#mainifr").attr("src", url);
+				}
+				else if(search.indexOf("fundinfo") == 0) {
+					var fundcode = search.replace("fundinfo", "");
+					url = "/product/fund/detail/ol5902q_1_detail.to?scr_menu_id=PD&fund_cd=" + fundcode;
+					$("#mainifr").attr("src", url);
+				}
+				else if(search.indexOf("branchinfo") == 0) {
+					var branchcode = search.replace("branchinfo", "");
+					url = "/company/co_info/network/ol0001qQ_101_2.to?br_cd=" + branchcode;
+					$("#mainifr").attr("src", url);
+				}
+				else {
+					var idx = search.indexOf("&");
+					var menu_id = "";
+					var param = "";
+					if(idx > 0) {
+						menu_id = search.substring(0, idx);
+						param = search.substring(idx + 1);
+					}
+					else
+						menu_id = search;
+					var obj = document.getElementById("menuFrame");
+					var action = obj.contentWindow || obj.contentDocument;
+					action.pageMove(menu_id, param);
+				}
+			}
+			else
+				$("#mainifr").attr("src", url);
+		}
+		
+		function initialize(){
+			
+			// IE memory leaking 방지
+			if ( window.attachEvent && !window.addEventListener ) {
+			    window.attachEvent("onunload", function() {
+			        for ( var id in jQuery.cache ) {
+			            if ( jQuery.cache[ id ].handle ) {
+			                // Try/Catch is to handle iframes being unloaded, see #4280
+			                try {
+			                    jQuery.event.remove( jQuery.cache[ id ].handle.elem   );
+			                } catch(e) {}
+			            }
+			        }
+			    });
+			}
+			
+			callPage();
+		}
+		
+		var loginCheck = {
+			noticePop	: false,
+			username	: "",
+			login_ip	: "",
+			lastdt		: "",
+			lasttime	: "",
+			timeout		: "0",
+			callback_func: null
+		};
+		
+		var winFundGuide;		
+		function popupFundGuide() {
+			if(typeof winFundGuide == "undefined" || winFundGuide.closed) {
+				var args = new Array();
+				args["win_parent"] = this;
+				winFundGuide = window.showModelessDialog("/common/html/fundGuide.html", args, "dialogLeft:0px;dialogWidth:340px;dialogHeight:600px;status:no;border:thin;");
+			}
+		}
+		
+		function goByNick(nick_name) {
+			$("#mainifr")[0].contentWindow.goByNick(nick_name);
+		}
+		
+		function goMenu(menu_id, enc_yn, target, param) {
+			$("#mainifr")[0].contentWindow.goMenu(menu_id, enc_yn, target, param);
+		}
+    //]]>
+</script>
+<!-- 셀렉트 -->
+</head>
+
+
+<body onload="initialize();">
+	<div id="frameWrap">
+		<iframe id="mainifr" title="현대차투자증권" scrolling="yes" name="mainifr" width="100%" height="100%" frameborder="0" main="mainifr" src=""  onLoad="loadIframe();"></iframe>
+		<iframe id="menuFrame" title="메뉴관리 프레임" scrolling="no" width="0" height="0" frameborder="0" src="/common/menu_frame.to"></iframe>
+	</div>
+</body>
+</html>
