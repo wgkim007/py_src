@@ -1,7 +1,9 @@
-#__coding: UTF-8__
+﻿# _*_ coding: UTF-8 _*_
 
 import sys
 from lib.getSoup_mdl import *
+
+URL = "https://www.kotra.or.kr/kh/about/KHKINY150M.do?MENU_CD=&TOP_MENU_CD=G0100&LEFT_MENU_CD=G0101&PARENT_MENU_CD=&YEAR_MONTH=&nation=1301"
 
 def File_Sample(HTML_F):
 	with open(HTML_F, 'r', encoding='UTF-8') as fd:
@@ -15,28 +17,31 @@ def File_Sample(HTML_F):
 
 	return
 
-def URL_Sample(url):
+def URL_Sample(url, key):
 	soup = get_url_soup(url)
-	tags = find_all_attr(soup, "div", "tit3")
-#	print("FindALL = %s " % tags)
+
+#       nation = soup.find_all(key)
+#	print("Search = %s " % nation)
+
+	tags = find_all_attr(soup, "tr", "option")
+	print("FindALL = %s " % tags)
 
 	count = 0
 	for tag in tags:
 		count = count + 1
-		print("영화 순서 : (%02d 위) [%s] " % (count, tag.a.text))
+		print("TAG=[%s] " % (tag.a.text))
 		
 
 if __name__ == "__main__":
 
 	if len(sys.argv) != 3 : 
-		print("\t Usage : %s [url : file] [URL : FileName]" % sys.argv[0])
+		print("\t Usage : %s [URL : FILE] [url_site : file_name]" % sys.argv[0])
 	else : 
-		if sys.argv[1] == "url" : 
-			URL = sys.argv[2]
-			URL_Sample(URL)
-		elif sys.argv[1] == "file" : 
+		if sys.argv[1] == "URL" : 
+			URL_Sample(URL, sys.argv[2])
+		elif sys.argv[1] == "FILE" : 
 			FileName = sys.argv[2]
-			File_Sample(FileName)
+			File_Sample(FileName, sys.argv[2])
 		else : 
-			print("\t Usage : %s [url : file] [URL : FileName]" % sys.argv[0])
+		        print("\t Usage : %s [URL : FILE] [url_site : file_name]" % sys.argv[0])
 
